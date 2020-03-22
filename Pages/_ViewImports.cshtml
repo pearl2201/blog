@@ -1,0 +1,10 @@
+@using blog
+@using blog.Models.Services
+@using Microsoft.AspNetCore.Identity
+@using blog.Areas.Identity.Data
+@namespace blog.Pages
+
+@inject SignInManager<Writer> SignInManager
+@inject UserManager<Writer> UserManager
+@inject LayoutService LayoutService
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

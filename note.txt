@@ -1,0 +1,23 @@
+// add package
+dotnet tool install --global dotnet-ef
+dotnet tool install --global dotnet-aspnet-codegenerator
+dotnet add package Microsoft.EntityFrameworkCore.SQLite
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+
+// appsetting.json
+  "ConnectionStrings": {
+    "MovieContext": "Data Source=MvcMovie.db"
+  }
+
+
+// scaffold the movie model
+- window:
+dotnet aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages\Movies --referenceScriptLibraries
+
+- linux, macoxs:
+dotnet aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages/Movies --referenceScriptLibraries
+dotnet tool install --global dotnet-aspnet-codegenerator
+
+dotnet aspnet-codegenerator razorpage -m Category -dc BlogIdentityDbContext -udl -outDir Pages/Categories --referenceScriptLibraries
