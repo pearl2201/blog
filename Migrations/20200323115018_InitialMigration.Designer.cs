@@ -9,8 +9,8 @@ using blog.Data;
 namespace blog.Migrations
 {
     [DbContext(typeof(BlogIdentityDbContext))]
-    [Migration("20200322090626_CreateIdentitySchema")]
-    partial class CreateIdentitySchema
+    [Migration("20200323115018_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -220,10 +220,27 @@ namespace blog.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("writerId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("writerId");
 
                     b.ToTable("Categories");
                 });
@@ -236,6 +253,18 @@ namespace blog.Migrations
 
                     b.Property<int?>("CategoryID")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Slug")
                         .HasColumnType("TEXT");
@@ -253,6 +282,38 @@ namespace blog.Migrations
                     b.HasIndex("WriterId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("blog.Models.PostTag", b =>
+                {
+                    b.Property<int>("TagID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PostID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("TagID", "PostID");
+
+                    b.HasIndex("PostID");
+
+                    b.ToTable("PostTags");
+                });
+
+            modelBuilder.Entity("blog.Models.Tag", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -306,15 +367,40 @@ namespace blog.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("blog.Models.Category", b =>
+                {
+                    b.HasOne("blog.Areas.Identity.Data.Writer", "writer")
+                        .WithMany("Categories")
+                        .HasForeignKey("writerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("blog.Models.Post", b =>
                 {
                     b.HasOne("blog.Models.Category", "Category")
                         .WithMany("Posts")
-                        .HasForeignKey("CategoryID");
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("blog.Areas.Identity.Data.Writer", "Writer")
-                        .WithMany()
-                        .HasForeignKey("WriterId");
+                        .WithMany("posts")
+                        .HasForeignKey("WriterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("blog.Models.PostTag", b =>
+                {
+                    b.HasOne("blog.Models.Post", "Post")
+                        .WithMany("PostTags")
+                        .HasForeignKey("PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("blog.Models.Tag", "Tag")
+                        .WithMany("postTags")
+                        .HasForeignKey("TagID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

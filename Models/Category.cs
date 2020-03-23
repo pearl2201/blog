@@ -2,6 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections;
 using System.Collections.Generic;
 using blog.Areas.Identity.Data;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace blog.Models
 {
@@ -13,6 +15,19 @@ namespace blog.Models
 
         public ICollection<Post> Posts { get; set; }
 
-        public Writer writer;
+        public Writer writer {get;set;}
+
+
+        public DateTime CreatedDate { get; set; }
+        
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime ModifiedDate { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+        public Category()
+        {
+            CreatedDate = DateTime.Now;
+            ModifiedDate = DateTime.Now;
+        }
     }
 }

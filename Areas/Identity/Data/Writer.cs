@@ -11,7 +11,7 @@ namespace blog.Areas.Identity.Data
     // Add profile data for application users by adding properties to the Writer class
     public class Writer : IdentityUser
     {
-        public ICollection<Category> Categories;
-        public ICollection<Post> posts;
+        public ICollection<Category> Categories {get;set;}
+        public ICollection<Post> posts {get;set;}
     }
 }

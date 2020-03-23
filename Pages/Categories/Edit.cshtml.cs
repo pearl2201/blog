@@ -41,30 +41,52 @@ namespace blog.Pages_Categories
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-
-            _context.Attach(Category).State = EntityState.Modified;
-
-            try
+            var categoryToUpdate = await _context.Categories.FirstOrDefaultAsync(m => m.ID == id);
+            if (categoryToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+
+            _context.Entry(categoryToUpdate)
+                .Property("RowVersion").OriginalValue = Category.RowVersion;
+
+           
+            if (await TryUpdateModelAsync<Category>(categoryToUpdate, "Category"))
             {
-                if (!CategoryExists(Category.ID))
+                try
                 {
-                    return NotFound();
+                    categoryToUpdate.ModifiedDate = System.DateTime.Now;
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException ex)
                 {
-                    throw;
+                    var exceptionEntry = ex.Entries.Single();
+                    var clientValues = (Category)exceptionEntry.Entity;
+                    var databaseEntry = exceptionEntry.GetDatabaseValues();
+                    if (databaseEntry == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Unable to save. " +
+                            "The category was deleted by another user.");
+                        return Page();
+                    }
+
+                    var dbValues = (Category)databaseEntry.ToObject();
+                    setDbErrorMessage(dbValues, clientValues, _context);
+
+                    // Save the current RowVersion so next postback
+                    // matches unless an new concurrency issue happens.
+                    Category.RowVersion = (byte[])dbValues.RowVersion;
+                    // Clear the model error for the next postback.
+                    ModelState.Remove("DeparCategoriestment.RowVersion");
                 }
             }
+
 
             return RedirectToPage("./Index");
         }
@@ -72,6 +94,25 @@ namespace blog.Pages_Categories
         private bool CategoryExists(int id)
         {
             return _context.Categories.Any(e => e.ID == id);
+        }
+
+        private void setDbErrorMessage(Category dbValues,
+                Category clientValues, BlogIdentityDbContext context)
+        {
+
+            if (dbValues.Name != clientValues.Name)
+            {
+                ModelState.AddModelError("Categoryyy.Name",
+                    $"Current value: {dbValues.Name}");
+            }
+
+
+            ModelState.AddModelError(string.Empty,
+                "The record you attempted to edit "
+              + "was modified by another user after you. The "
+              + "edit operation was canceled and the current values in the database "
+              + "have been displayed. If you still want to edit this record, click "
+              + "the Save button again.");
         }
     }
 }
