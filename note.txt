@@ -21,3 +21,4 @@ dotnet aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -
 dotnet tool install --global dotnet-aspnet-codegenerator
 
 dotnet aspnet-codegenerator razorpage -m Category -dc BlogIdentityDbContext -udl -outDir Pages/Categories --referenceScriptLibraries
+dotnet aspnet-codegenerator razorpage -m Post -dc BlogIdentityDbContext -udl -outDir Pages/Posts --referenceScriptLibrariesdotnet

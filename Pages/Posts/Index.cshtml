@@ -1,5 +1,5 @@
 @page
-@model blog.Pages_Categories.IndexModel
+@model blog.Pages_Posts.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,25 +14,31 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Category[0].Name)
+                @Html.DisplayNameFor(model => model.Post[0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category[0].CreatedDate)
+                @Html.DisplayNameFor(model => model.Post[0].Slug)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category[0].ModifiedDate)
+                @Html.DisplayNameFor(model => model.Post[0].CreatedDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category[0].RowVersion)
+                @Html.DisplayNameFor(model => model.Post[0].ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Post[0].RowVersion)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Category) {
+@foreach (var item in Model.Post) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedDate)

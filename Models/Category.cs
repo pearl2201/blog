@@ -20,7 +20,6 @@ namespace blog.Models
 
         public DateTime CreatedDate { get; set; }
         
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime ModifiedDate { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using blog.Data;
 using blog.Models;
 
-namespace blog.Pages_Categories
+namespace blog.Pages_Posts
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace blog.Pages_Categories
         }
 
         [BindProperty]
-        public Category Category { get; set; }
+        public Post Post { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,9 +30,9 @@ namespace blog.Pages_Categories
                 return NotFound();
             }
 
-            Category = await _context.Categories.FirstOrDefaultAsync(m => m.ID == id);
+            Post = await _context.Posts.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (Category == null)
+            if (Post == null)
             {
                 return NotFound();
             }
@@ -48,7 +48,7 @@ namespace blog.Pages_Categories
                 return Page();
             }
 
-            _context.Attach(Category).State = EntityState.Modified;
+            _context.Attach(Post).State = EntityState.Modified;
 
             try
             {
@@ -56,7 +56,7 @@ namespace blog.Pages_Categories
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(Category.ID))
+                if (!PostExists(Post.ID))
                 {
                     return NotFound();
                 }
@@ -69,9 +69,9 @@ namespace blog.Pages_Categories
             return RedirectToPage("./Index");
         }
 
-        private bool CategoryExists(int id)
+        private bool PostExists(int id)
         {
-            return _context.Categories.Any(e => e.ID == id);
+            return _context.Posts.Any(e => e.ID == id);
         }
     }
 }
