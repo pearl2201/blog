@@ -9,8 +9,8 @@ using blog.Data;
 namespace blog.Migrations
 {
     [DbContext(typeof(BlogIdentityDbContext))]
-    [Migration("20200323115018_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200324020706_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -224,7 +224,6 @@ namespace blog.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -251,7 +250,7 @@ namespace blog.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CategoryID")
+                    b.Property<int>("CategoryID")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedDate")
@@ -380,7 +379,8 @@ namespace blog.Migrations
                     b.HasOne("blog.Models.Category", "Category")
                         .WithMany("Posts")
                         .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("blog.Areas.Identity.Data.Writer", "Writer")
                         .WithMany("posts")

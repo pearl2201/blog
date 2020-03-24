@@ -22,9 +22,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category[0].ModifiedDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category[0].RowVersion)
-            </th>
+          
             <th></th>
         </tr>
     </thead>
@@ -40,9 +38,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RowVersion)
-            </td>
+          
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |

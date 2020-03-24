@@ -21,6 +21,7 @@ namespace blog.Pages_Categories
 
         public Category Category { get; set; }
 
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -28,7 +29,7 @@ namespace blog.Pages_Categories
                 return NotFound();
             }
 
-            Category = await _context.Categories.FirstOrDefaultAsync(m => m.ID == id);
+            Category = await _context.Categories.Include(x => x.Posts).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Category == null)
             {

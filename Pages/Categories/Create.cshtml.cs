@@ -35,7 +35,8 @@ namespace blog.Pages_Categories
             {
                 return Page();
             }
-
+            Category.ModifiedDate = DateTime.Now;
+            Category.CreatedDate = DateTime.Now;
             _context.Categories.Add(Category);
             await _context.SaveChangesAsync();
 

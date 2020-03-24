@@ -11,21 +11,21 @@ using Microsoft.Extensions.Logging;
 namespace blog.Pages
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class ErrorModel : LayoutModel<ErrorModel>
+    public class ErrorModel : PageModel
     {
         public string RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        public ErrorModel(ILogger<ErrorModel> logger, BlogIdentityDbContext context) : base(logger, context)
+        public ErrorModel(ILogger<ErrorModel> logger, BlogIdentityDbContext context) 
         {
 
         }
 
 
-        public override async Task OnGetAsync() 
+        public  async Task OnGetAsync() 
         {
-            await base.OnGetAsync();
+            
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }

@@ -222,7 +222,6 @@ namespace blog.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -249,14 +248,14 @@ namespace blog.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CategoryID")
+                    b.Property<int>("CategoryID")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .ValueGeneratedOnAddOrUpdate()
+                    
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("RowVersion")
@@ -378,7 +377,8 @@ namespace blog.Migrations
                     b.HasOne("blog.Models.Category", "Category")
                         .WithMany("Posts")
                         .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("blog.Areas.Identity.Data.Writer", "Writer")
                         .WithMany("posts")

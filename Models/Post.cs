@@ -14,6 +14,7 @@ namespace blog.Models
 
         public string Slug {get;set;}
 
+        public int CategoryID {get;set;}
         public Category Category {get;set;}
 
         public Writer Writer {get;set;}
@@ -22,7 +23,7 @@ namespace blog.Models
 
         public DateTime CreatedDate { get; set; }
         
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+      
         public DateTime ModifiedDate { get; set; }
 
         [Timestamp]

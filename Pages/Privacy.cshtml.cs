@@ -11,12 +11,12 @@ using Microsoft.Extensions.Logging;
 namespace blog.Pages
 {
     [Authorize]
-    public class PrivacyModel : LayoutModel<PrivacyModel>
+    public class PrivacyModel : PageModel
     {
 
 
 
-        public PrivacyModel(ILogger<PrivacyModel> logger, BlogIdentityDbContext context) : base(logger, context)
+        public PrivacyModel(ILogger<PrivacyModel> logger, BlogIdentityDbContext context)
         {
 
         }

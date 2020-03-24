@@ -11,7 +11,7 @@ using blog.Models;
 
 namespace blog.Pages_Posts
 {
-    public class EditModel : PageModel
+    public class EditModel : CategoryNamePage
     {
         private readonly blog.Data.BlogIdentityDbContext _context;
 
@@ -36,22 +36,25 @@ namespace blog.Pages_Posts
             {
                 return NotFound();
             }
+            PopulateCategoriesDropdownList(_context,Post.Category);
             return Page();
         }
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (!ModelState.IsValid)
             {
+                PopulateCategoriesDropdownList(_context,Post.Category);
                 return Page();
             }
 
             _context.Attach(Post).State = EntityState.Modified;
-
+            
             try
             {
+                Post.ModifiedDate = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

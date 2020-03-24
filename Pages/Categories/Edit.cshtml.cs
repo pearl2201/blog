@@ -49,7 +49,7 @@ namespace blog.Pages_Categories
             }
 
             _context.Attach(Category).State = EntityState.Modified;
-
+            Category.ModifiedDate = DateTime.Now;
             try
             {
                 await _context.SaveChangesAsync();

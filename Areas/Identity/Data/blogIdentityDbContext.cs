@@ -56,7 +56,7 @@ namespace blog.Data
                     .WithOne(t => t.Writer)
                     .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Category>().HasMany(c => c.Posts).WithOne(p => p.Category).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Category>().HasMany(c => c.Posts).WithOne(p => p.Category).HasForeignKey(p => p.CategoryID).OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Writer>().HasMany(w => w.Categories).WithOne(c => c.writer).OnDelete(DeleteBehavior.Cascade);
             
