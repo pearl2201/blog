@@ -22,6 +22,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category[0].ModifiedDate)
             </th>
+
+             <th>
+                @Html.DisplayNameFor(model => model.Category[0].writer)
+            </th>
+          
           
             <th></th>
         </tr>
@@ -37,6 +42,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+              <td>
+                @Html.DisplayFor(modelItem => item.writer.UserName)
             </td>
           
             <td>

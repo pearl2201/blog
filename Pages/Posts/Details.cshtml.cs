@@ -28,7 +28,7 @@ namespace blog.Pages_Posts
                 return NotFound();
             }
 
-            Post = await _context.Posts.FirstOrDefaultAsync(m => m.ID == id);
+            Post = await _context.Posts.Include(p => p.Writer).Include(p => p.Category).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Post == null)
             {

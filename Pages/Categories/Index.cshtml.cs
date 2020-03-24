@@ -23,7 +23,7 @@ namespace blog.Pages_Categories
 
         public async Task OnGetAsync()
         {
-            Category = await _context.Categories.ToListAsync();
+            Category = await _context.Categories.Include(c => c.writer).ToListAsync();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace blog.Pages_Categories
                 return NotFound();
             }
 
-            Category = await _context.Categories.Include(x => x.Posts).FirstOrDefaultAsync(m => m.ID == id);
+            Category = await _context.Categories.Include(x => x.Posts).Include(x => x.writer).FirstOrDefaultAsync(m => m.ID == id);
 
             if (Category == null)
             {

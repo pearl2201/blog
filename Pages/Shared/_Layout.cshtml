@@ -8,27 +8,19 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
-     
+    <header> 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            
-                <a class="navbar-brand" asp-area="" asp-page="/Index">blog</a>
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Blog</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav mr-auto">
-                        
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-
-                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" asp-page="/Categories/Index" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Categories
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -36,7 +28,11 @@
                                 {
                                     <a class="dropdown-item" asp-area="" asp-page="/Categories/Details" asp-route-id="@item.ID">  @Html.DisplayFor(modelItem => item.Name) </a>
                                   
-                                }    
+                                }  
+                                 @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <a class="dropdown-item" asp-area="" asp-page="/Categories/Create">New Category</a>  
+                                }
                             </div>
                         </li>
                                 
@@ -45,6 +41,9 @@
                     <ul class="navbar-nav">
                         @if (SignInManager.IsSignedIn(User))
                         {
+                            <li class="nav-item">
+                                <a id="manage" class="nav-link text-dark" asp-area="" asp-page="/Posts/Create" title="Manage">New Post</a>
+                            </li>
                             <li class="nav-item">
                                 <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
                             </li>
@@ -63,11 +62,9 @@
                                 <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
                             </li>
                         }
-                       
-                      
                     </ul>
                 </div>
-           
+           </div>
         </nav>
     </header>
     <div class="container">
@@ -78,7 +75,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - blog - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2020 - blog
         </div>
     </footer>
 

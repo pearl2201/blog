@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using blog.Data;
 using blog.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace blog.Pages_Posts
 {
+    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly blog.Data.BlogIdentityDbContext _context;

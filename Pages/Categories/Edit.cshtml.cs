@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using blog.Data;
 using blog.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace blog.Pages_Categories
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly blog.Data.BlogIdentityDbContext _context;
